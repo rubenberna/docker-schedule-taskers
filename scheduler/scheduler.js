@@ -1,6 +1,6 @@
 const schedule = require('node-schedule');
 
-const job = require('../job')
+const job = require('../job/job')
 
 const SchedulerState = { Started:"Started", Stopped:"Stopped" }
 
@@ -11,7 +11,14 @@ class Scheduler {
   }
 
   start() {
-    schedule.scheduleJob('1 * * * * *', () => { job.addTaskersCount(); this.addLog('started a job')})
+    schedule.scheduleJob('32 11 * * *', () => this.run())
+  }
+
+  async run() {
+    let start = new Date()
+    await job.addTaskersCount()
+    let end = new Date() - start
+    this.addLog('Execution time: %dms', end)
   }
 
   addLog(line) {
@@ -22,7 +29,6 @@ class Scheduler {
   getLogs() {
     return this.logs
   }
-
 }
 
 // use singleton for storing the logs

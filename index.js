@@ -3,10 +3,12 @@ require('dotenv').config();
 const cors = require('cors');
 const session = require('express-session');
 const port = process.env.PORT || 5000;
-const scheduler = require('./scheduler/schedule').current
+const scheduler = require('./scheduler/scheduler').current
 
 const app = express()
 app.use(cors())
+
+const testApi = require('./routes/test');
 
 app.use(session({
   secret: 's3cret',
@@ -14,6 +16,8 @@ app.use(session({
   saveUninitialized: true,
   mongodb: {}
 }));
+
+app.use('/test_api', testApi)
 
 app.get('/', (req, res) => {
   let logs = scheduler.getLogs()
