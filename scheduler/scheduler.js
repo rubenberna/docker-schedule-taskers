@@ -2,16 +2,13 @@ const schedule = require('node-schedule');
 
 const job = require('../job/job')
 
-const SchedulerState = { Started:"Started", Stopped:"Stopped" }
-
 class Scheduler {
   constructor() {
-    this.logs = [],
-    this.status = SchedulerState.Stopped
+    this.logs = []
   }
 
   start() {
-    schedule.scheduleJob('32 11 * * *', () => this.run())
+    schedule.scheduleJob('00 04 * * *', () => this.run())
   }
 
   async run() {
